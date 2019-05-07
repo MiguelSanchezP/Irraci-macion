@@ -9,36 +9,73 @@ double calcularConstante (int coops, int total);
 void exportarAtxt(int coops, int total);
 int obtenerValor (bool coops);
 void exportarNums (int num1, int num2, int num3, int total);
+void aproximacion(int coops, int total);
+int menu ();
+void ver (int coops, int total);
+void resetear ();
 
 int main () {
-	int coops = obtenerValor (true);
-	int total = obtenerValor (false);
-	cout << "Aplicacion iniciada con valores: " << endl;
-	cout << "Coprimos: " << coops << endl;
-	cout << "Computados: " << total << endl;
-	while (true) {
-		int nums [5000];
-		int tempNum1, tempNum2, tempNum3;
-		cout << "num1: ";
-		cin >> tempNum1;
-		cout << "num2: ";
-		cin >> tempNum2;
-		cout << "num3: ";
-		cin >> tempNum3;
-			
-		if (sonCooprimos(tempNum1, tempNum2, tempNum3)) {
-			cout << "\nLos numeros introducidos son coprimos" << endl;
-			coops += 1;
-		}else {
-			cout << "\nLos numeros introducidos NO son coprimos" << endl;
+	bool salir = false;
+	while (!salir) {
+		int coops = obtenerValor (true);
+		int total = obtenerValor (false);
+		cout << "Aplicacion iniciada con valores: " << endl;
+		cout << "Coprimos: " << coops << endl;
+		cout << "Computados: " << total << endl;
+		cout << "Valor de la constante inicial: " << calcularConstante (coops, total) << endl;
+		cout << endl;
+		int decision = menu();
+		switch (decision) {
+			case 1:
+				system("cls");
+				aproximacion (coops, total);
+				cout << "------------------------------------------------------------------" << endl;
+				break;
+			case 2:
+				system("cls");
+				ver(coops, total);
+				cout << "------------------------------------------------------------------" << endl;
+				break;
+			case 3:
+				system("cls");
+				resetear();
+				cout << "------------------------------------------------------------------" << endl;
+				break;
+			case 715:
+				system("cls");
+				salir=true;
+				break;
+			default:
+				system("cls");
+				cout << "Entrada no valida" << endl;
+				cout << "------------------------------------------------------------------" << endl;
+				break;
 		}
-		total += 1;
-		cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
-		cout << calcularConstante (coops, total) << endl;
-		exportarAtxt(coops, total);
-		exportarNums(tempNum1, tempNum2, tempNum3, total);
 	}
 	return 0;
+}
+
+void aproximacion (int coops, int total) {
+	int nums [5000];
+	int tempNum1, tempNum2, tempNum3;
+	cout << "num1: ";
+	cin >> tempNum1;
+	cout << "num2: ";
+	cin >> tempNum2;
+	cout << "num3: ";
+	cin >> tempNum3;
+		
+	if (sonCooprimos(tempNum1, tempNum2, tempNum3)) {
+		cout << "\nLos numeros introducidos son coprimos" << endl;
+		coops += 1;
+	}else {
+		cout << "\nLos numeros introducidos NO son coprimos" << endl;
+	}
+	total += 1;
+	cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
+	cout << calcularConstante (coops, total) << endl;
+	exportarAtxt(coops, total);
+	exportarNums(tempNum1, tempNum2, tempNum3, total);
 }
 
 bool sonCooprimos (int num1, int num2, int num3) {
@@ -158,9 +195,44 @@ int obtenerValor (bool c) {
 	return valor;
 }
 
-void exportarNums (int num1, int num2, int num3, int total) {
+void exportarNums (int num1, int num2, int num3, int total) { 
 	ofstream escritura;
 	escritura.open("./Archivos/NumerosBonitos.txt", ios::app);
 	escritura << total << ".-\t" << num1 << "\t" << num2 << "\t" << num3 << endl;
 	escritura.close();
+}
+
+int menu () {
+	int decision;
+	cout << "MENU" << endl;
+	cout << "----" << endl;
+	cout << "1.Aproximacion" << endl;
+	cout << "2.Ver datos actuales" << endl;
+	cout << "3.Resetear" << endl;
+	cout << "715.Salir" << endl;
+	cout << "\nDecision: ";
+	cin >> decision;
+	return decision;
+}
+
+
+void resetear () {
+	char decision;
+	cout << "Estas seguro de querer resetear la aplicacion [S/N]? ";
+	cin >> decision;
+	if (decision == 'S' || decision == 's') {
+		ofstream escritura;
+		escritura.open("./Archivos/NumerosFuncional.txt", ios::trunc);
+		escritura.close();
+		escritura.open("./Archivos/NumerosBonitos.txt", ios::trunc);
+		escritura.close();
+		cout << "Aplicacion reseteada" << endl;
+	}else{
+		cout << "Abortando" << endl;
+	}
+}
+
+void ver (int coops, int total) {
+	cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
+	cout << calcularConstante (coops, total) << endl;
 }
