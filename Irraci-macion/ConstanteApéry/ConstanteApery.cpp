@@ -3,6 +3,8 @@
 #include <fstream>
 #include <windows.h>
 
+#define AperyConstante 1.2020569031595942853997381
+
 using namespace std;
 
 bool sonCooprimos (int num1, int num2, int num3);
@@ -19,6 +21,7 @@ HANDLE h = GetStdHandle (STD_OUTPUT_HANDLE);
 
 int main () {
 	bool salir = false;
+	cout.precision(10);
 	while (!salir) {
 		int coops = obtenerValor (true);
 		int total = obtenerValor (false);
@@ -27,8 +30,12 @@ int main () {
 		cout << "Computados: " << total << endl;
 		cout << "Valor de la constante inicial: ";
 		SetConsoleTextAttribute (h, BACKGROUND_GREEN|BACKGROUND_BLUE|BACKGROUND_RED|BACKGROUND_INTENSITY);
-		cout << calcularConstante (coops, total) << endl;
+		cout << fixed << calcularConstante (coops, total) << endl;
 		SetConsoleTextAttribute (h, FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_BLUE|FOREGROUND_INTENSITY);
+		cout << "Hay un error de ";
+		SetConsoleTextAttribute (h, FOREGROUND_RED|FOREGROUND_INTENSITY);
+		cout << fixed << AperyConstante-calcularConstante(coops, total) << endl;
+		SetConsoleTextAttribute (h, FOREGROUND_RED|FOREGROUND_BLUE|FOREGROUND_GREEN|FOREGROUND_INTENSITY);
 		cout << endl;
 		int decision = menu();
 		switch (decision) {
@@ -87,8 +94,6 @@ void aproximacion (int coops, int total) {
 		cout << " son coprimos" << endl;
 	}
 	total += 1;
-//	cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
-//	cout << calcularConstante (coops, total) << endl;
 	exportarAtxt(coops, total);
 	exportarNums(tempNum1, tempNum2, tempNum3, total);
 	SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
