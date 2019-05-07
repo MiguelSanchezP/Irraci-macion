@@ -1,15 +1,21 @@
 #include <iostream>
 #include <cmath>
+#include <fstream>
 
 using namespace std;
 
 bool sonCooprimos (int num1, int num2, int num3);
 double calcularConstante (int coops, int total);
+void exportarAtxt(int coops, int total);
+int obtenerValor (bool coops);
+void exportarNums (int num1, int num2, int num3, int total);
 
 int main () {
-	int ronda = 1;
-	int coops = 0;
-	int total = 0;
+	int coops = obtenerValor (true);
+	int total = obtenerValor (false);
+	cout << "Aplicacion iniciada con valores: " << endl;
+	cout << "Coprimos: " << coops << endl;
+	cout << "Computados: " << total << endl;
 	while (true) {
 		int nums [5000];
 		int tempNum1, tempNum2, tempNum3;
@@ -27,9 +33,10 @@ int main () {
 			cout << "\nLos numeros introducidos NO son coprimos" << endl;
 		}
 		total += 1;
-		cout << "Despues de " << ronda << " iteraciones el valor de la constante es de: " << endl;
+		cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
 		cout << calcularConstante (coops, total) << endl;
-		ronda+=1;
+		exportarAtxt(coops, total);
+		exportarNums(tempNum1, tempNum2, tempNum3, total);
 	}
 	return 0;
 }
@@ -84,7 +91,6 @@ bool sonCooprimos (int num1, int num2, int num3) {
 			for (int k = 1; k<arrayDivsNum3[0]; k++) {
 				if ((arrayDivsNum1[i] == arrayDivsNum2[j])&&(arrayDivsNum2[j] == arrayDivsNum3[k])) {
 					if (arrayDivsNum1[i] >= mcd) {
-//						cout << "LLegado con val " << arrayDivsNum1[i] << endl;
 						mcd = arrayDivsNum1[i];
 					}
 				}
@@ -103,4 +109,58 @@ double calcularConstante (int coops, int total) {
 		return (double)total/(double)coops;
 	}
 	return 0;
+}
+
+void exportarAtxt (int coops, int total) {
+	ofstream escritura;
+	escritura.open("./Archivos/NumerosFuncional.txt", ios::trunc);
+	escritura << coops << "-" << total << ".";
+	escritura.close();
+	cout << "Todo ha sido exportado satisfactoriamente" << endl;
+}
+
+int obtenerValor (bool c) {
+	char datos [12];
+	ifstream lectura;
+	lectura.open("./Archivos/NumerosFuncional.txt");
+	lectura.getline(datos, 12);
+	lectura.close();
+	int posG = 0;
+	int posP = 0;
+	for (int i = 0; i<12; i++) {
+		if (datos[i] == '-') {
+			posG = i;
+		}
+		if (datos[i] == '.') {
+			posP = i;
+		}
+	}
+	char coops [posG];
+	char total [posP-posG-1];
+	int valor = 0;
+	if (c) {
+		for (int i = 0; i<posG; i++) {
+			coops[i]=datos[i];
+		}
+		for (int i = 0; i<posG; i++) {
+			valor = valor*10+(coops[i]-48);
+		}
+	}else{
+		int k = 0;
+		for (int i = posG+1; i<posP; i++) {
+			total[k] = datos[i];
+			k++;
+		}
+		for (int i = 0; i<(posP-posG-1); i++) {
+			valor = valor*10+(total[i]-48);
+		}
+	}
+	return valor;
+}
+
+void exportarNums (int num1, int num2, int num3, int total) {
+	ofstream escritura;
+	escritura.open("./Archivos/NumerosBonitos.txt", ios::app);
+	escritura << total << ".-\t" << num1 << "\t" << num2 << "\t" << num3 << endl;
+	escritura.close();
 }
