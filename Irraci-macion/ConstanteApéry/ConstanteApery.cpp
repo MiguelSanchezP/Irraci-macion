@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <fstream>
+#include <windows.h>
 
 using namespace std;
 
@@ -14,6 +15,8 @@ int menu ();
 void ver (int coops, int total);
 void resetear ();
 
+HANDLE h = GetStdHandle (STD_OUTPUT_HANDLE);
+
 int main () {
 	bool salir = false;
 	while (!salir) {
@@ -22,7 +25,10 @@ int main () {
 		cout << "Aplicacion iniciada con valores: " << endl;
 		cout << "Coprimos: " << coops << endl;
 		cout << "Computados: " << total << endl;
-		cout << "Valor de la constante inicial: " << calcularConstante (coops, total) << endl;
+		cout << "Valor de la constante inicial: ";
+		SetConsoleTextAttribute (h, BACKGROUND_GREEN|BACKGROUND_BLUE|BACKGROUND_RED|BACKGROUND_INTENSITY);
+		cout << calcularConstante (coops, total) << endl;
+		SetConsoleTextAttribute (h, FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_BLUE|FOREGROUND_INTENSITY);
 		cout << endl;
 		int decision = menu();
 		switch (decision) {
@@ -58,24 +64,36 @@ int main () {
 void aproximacion (int coops, int total) {
 	int nums [5000];
 	int tempNum1, tempNum2, tempNum3;
-	cout << "num1: ";
+	cout << "Valor de:" << endl;
+	cout << "Primer numero: ";
 	cin >> tempNum1;
-	cout << "num2: ";
+	cout << "Segundo numero: ";
 	cin >> tempNum2;
-	cout << "num3: ";
+	cout << "Tercer numero: ";
 	cin >> tempNum3;
 		
 	if (sonCooprimos(tempNum1, tempNum2, tempNum3)) {
-		cout << "\nLos numeros introducidos son coprimos" << endl;
+		cout << "\nLos numeros introducidos ";
+		SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_INTENSITY); 
+		cout << "SI"; 
+		SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+		cout << " son coprimos" << endl;
 		coops += 1;
 	}else {
-		cout << "\nLos numeros introducidos NO son coprimos" << endl;
+		cout << "\nLos numeros introducidos ";
+		SetConsoleTextAttribute (h, FOREGROUND_RED | FOREGROUND_INTENSITY);
+		cout << "NO";
+		SetConsoleTextAttribute (h, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+		cout << " son coprimos" << endl;
 	}
 	total += 1;
-	cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
-	cout << calcularConstante (coops, total) << endl;
+//	cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
+//	cout << calcularConstante (coops, total) << endl;
 	exportarAtxt(coops, total);
 	exportarNums(tempNum1, tempNum2, tempNum3, total);
+	SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+	cout << "Todo ha sido exportado satisfactoriamente" << endl;
+	SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
 }
 
 bool sonCooprimos (int num1, int num2, int num3) {
@@ -134,7 +152,11 @@ bool sonCooprimos (int num1, int num2, int num3) {
 			}
 		}
 	}
-	cout << "\nMCD (" << num1 << ", " << num2 << ", " << num3 << ") = " << mcd << endl;
+	cout << "\nMCD (" << num1 << ", " << num2 << ", " << num3 << ") = ";
+	SetConsoleTextAttribute (h, BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+	cout << mcd;
+	SetConsoleTextAttribute (h, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+	cout << endl;
 	if (mcd == 1) {
 		return true;
 	}
@@ -153,7 +175,6 @@ void exportarAtxt (int coops, int total) {
 	escritura.open("./Archivos/NumerosFuncional.txt", ios::trunc);
 	escritura << coops << "-" << total << ".";
 	escritura.close();
-	cout << "Todo ha sido exportado satisfactoriamente" << endl;
 }
 
 int obtenerValor (bool c) {
@@ -218,7 +239,9 @@ int menu () {
 
 void resetear () {
 	char decision;
+	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
 	cout << "Estas seguro de querer resetear la aplicacion [S/N]? ";
+	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	cin >> decision;
 	if (decision == 'S' || decision == 's') {
 		ofstream escritura;
@@ -226,7 +249,9 @@ void resetear () {
 		escritura.close();
 		escritura.open("./Archivos/NumerosBonitos.txt", ios::trunc);
 		escritura.close();
+		SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 		cout << "Aplicacion reseteada" << endl;
+		SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	}else{
 		cout << "Abortando" << endl;
 	}
@@ -234,5 +259,7 @@ void resetear () {
 
 void ver (int coops, int total) {
 	cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
+	SetConsoleTextAttribute(h, BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
 	cout << calcularConstante (coops, total) << endl;
+	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
