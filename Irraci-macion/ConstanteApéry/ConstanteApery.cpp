@@ -34,7 +34,7 @@ int main () {
 		SetConsoleTextAttribute (h, FOREGROUND_GREEN|FOREGROUND_RED|FOREGROUND_BLUE|FOREGROUND_INTENSITY);
 		cout << "Hay un error de ";
 		SetConsoleTextAttribute (h, FOREGROUND_RED|FOREGROUND_INTENSITY);
-		cout << fixed << AperyConstante-calcularConstante(coops, total) << endl;
+		cout << fixed << calcularConstante(coops, total)-AperyConstante << endl;
 		SetConsoleTextAttribute (h, FOREGROUND_RED|FOREGROUND_BLUE|FOREGROUND_GREEN|FOREGROUND_INTENSITY);
 		cout << endl;
 		int decision = menu();
@@ -263,8 +263,13 @@ void resetear () {
 }
 
 void ver (int coops, int total) {
+	cout.precision(10);
 	cout << "Despues de " << total << " iteraciones el valor de la constante es de: " << endl;
 	SetConsoleTextAttribute(h, BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
-	cout << calcularConstante (coops, total) << endl;
+	cout << fixed << calcularConstante (coops, total) << endl;
+	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+	cout << "Con un error presente de: " << endl;
+	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
+	cout << fixed << calcularConstante(coops, total)-AperyConstante << endl;
 	SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 }
