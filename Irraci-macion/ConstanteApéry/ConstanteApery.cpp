@@ -153,7 +153,7 @@ bool sonCooprimos (int num1, int num2, int num3) {
 		}
 	}
 	cout << "\nMCD (" << num1 << ", " << num2 << ", " << num3 << ") = ";
-	SetConsoleTextAttribute (h, BACKGROUND_RED | BACKGROUND_GREEN | BACKGROUND_BLUE | BACKGROUND_INTENSITY);
+	SetConsoleTextAttribute (h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	cout << mcd;
 	SetConsoleTextAttribute (h, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 	cout << endl;
