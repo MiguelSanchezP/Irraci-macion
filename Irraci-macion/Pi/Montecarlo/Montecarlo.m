@@ -1,12 +1,10 @@
+hold off;
 pos = [-1 -1 2 2];
 rectangle('Position',pos,'Curvature',[1 1])
 axis equal
 pos = [-1 -1 2 2];
-hold off;
 rectangle('Position',pos)
 inside=0;
-total=0;
-points=[];
 printf("Cantidad de iteraciones: ");
 n=input(' ');
 posX=-1+2*rand(1,n);
