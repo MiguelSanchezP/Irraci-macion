@@ -19,7 +19,7 @@ for i=1:1:iter
 endfor
 for i=0:espaciado:100+longitud
   hold on
-  plot ([i i],[0 100+longitud],'k')
+  plot ([i i],[-1*longitud 100+longitud],'k')
 endfor
 axis equal
 PI = (2*iter*longitud)/(cruces*espaciado)
